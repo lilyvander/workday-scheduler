@@ -3,47 +3,48 @@ $(function () {
     // Get current time and date using dayjs, set that to a new variable 
     const nowHourDate = (dayjs().format('MM/DD/YY' + ' ' + 'h:mm:ss A'));
     
-    // Get current hour to use to check time 
-    const currentHour = (dayjs().hour());
-    
     // Logs the current date and time 
     console.log(nowHourDate)
+
+    // Gets the current hour to check against time blocks 
+    const currentHour = (dayjs().format('HH'));
     console.log(currentHour)
     
     $(document).ready(function () {
        // Displays date and time on page using the currentDay id 
         $('#currentDay').text(nowHourDate);
     
-    
     // Event listener for the click event on the save button, grabs input text and time and stores in the local storage
      $('.saveBtn').on('click', function () {
-        
-        var text = $(this).siblings(".description").val();
-        var time = $(this).parent().attr("id");
-        
-        localStorage.setItem(time, text);
-    
-        function checkTimeUpdateClass () {
-            if (time > currentHour ) {
-             $(this).addClass('future')
-            } else if (time < currentHour) {
-             $(this).addClass('past')
-            } else if (time === currentHour) {
-             $(this).addClass('past')
+        var inputText = $(this).siblings(".description").val(); 
+        var inputTime = $(this).parent().attr("id"); 
+        console.log(inputTime)
+        localStorage.setItem(inputTime, inputText);
+
+        $(".time-block").each(function (){
+            var calendarHour =  $(this).attr('id');
+            console.log(calendarHour)
+            if (calendarHour === currentHour) {
+                $(this).addClass('present')
+            } else if (calendarHour < currentHour) {
+                $(this).addClass('past')
+            } else (calendarHour > currentHour) 
+                $(this).addClass('future')
             }
-        }
+        )
+
+        $("#09.description").val(localStorage.getItem("09"));
+        $("#10.description").val(localStorage.getItem("10"));
+        $("#11.description").val(localStorage.getItem("11"));
+        $("#12.description").val(localStorage.getItem("12"));
+        $("#13.description").val(localStorage.getItem("13"));
+        $("#14.description").val(localStorage.getItem("14"));
+        $("#15.description").val(localStorage.getItem("15"));
+        $("#16.description").val(localStorage.getItem("16"));
+        $("#17.description").val(localStorage.getItem("17"));
+    
+      
         }) 
-    
-     $("#9.description").val(localStorage.getItem("hour-9"));
-     $("10.description").val(localStorage.getItem("hour-9"));
-     $("11.description").val(localStorage.getItem("hour-9"));
-     $("12.description").val(localStorage.getItem("hour-9"));
-     $("13.description").val(localStorage.getItem("hour-9"));
-     $("14.description").val(localStorage.getItem("hour-9"));
-     $("15.description").val(localStorage.getItem("hour-9"));
-     $("16.description").val(localStorage.getItem("hour-9"));
-     $("h17.description").val(localStorage.getItem("hour-9"));
-    
     })
     
     
