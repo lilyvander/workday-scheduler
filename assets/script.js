@@ -5,7 +5,7 @@
     console.log(nowHourDate)
 
  
-    const currentHour = (dayjs().format('HH'));
+    const currentHour =parseInt(dayjs().format('H'));
     console.log(currentHour)
     
 
@@ -17,23 +17,25 @@
         var inputTime = parseInt($(this).parent().attr("id"));
         localStorage.setItem(inputTime, inputText);
 
-        $(".time-block").each(function () {
-            var blockHour = parseInt($(this).attr("id")); 
-            console.log("blockHour:", blockHour);
-        
-            if (blockHour > currentHour) {
-                console.log("Future");
-                $(this).addClass('future');
-            } else if (blockHour < currentHour) {
-                console.log("Past");
-                $(this).addClass('past');
-            } else {
-                console.log("Present");
-                $(this).addClass('present');
-            }
-        });
+        updateBlockClasses();
 
-    // Load saved data from localStorage
+
+
+        function updateBlockClasses() {
+            $(".time-block").each(function () {
+                var blockHour = parseInt($(this).attr("id"));
+        
+                if (blockHour > currentHour) {
+                    $(this).removeClass('past present').addClass('future');
+                } else if (blockHour < currentHour) {
+                    $(this).removeClass('future present').addClass('past');
+                } else {
+                    $(this).removeClass('past future').addClass('present');
+                }
+            });
+        }
+
+        
     $("#09 .description").val(localStorage.getItem("09"));
     $("#10 .description").val(localStorage.getItem("10"));
     $("#11 .description").val(localStorage.getItem("11"));
@@ -44,3 +46,5 @@
     $("#16 .description").val(localStorage.getItem("16"));
     $("#17 .description").val(localStorage.getItem("17"));
 });
+
+updateBlockClasses();
